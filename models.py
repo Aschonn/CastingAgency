@@ -5,12 +5,9 @@ import json
 from datetime import date
 from config import database_setup
 
-#----------------------------------------------------------------------------#
-# Database Setup 
-#----------------------------------------------------------------------------#
 
-# Use Production Database.
-# If run locally, key does not exist, so use locally set database instead.
+#--------------Database Setup----------------#
+
 database_path = os.environ.get('DATABASE_URL', "postgres://{}:{}@{}/{}".format(database_setup["user_name"], database_setup["password"], database_setup["port"], database_setup["database_name_production"]))
 
 db = SQLAlchemy()
@@ -56,20 +53,18 @@ def db_init_records():
     db.session.execute(new_performance) 
     db.session.commit()
 
-#----------------------------------------------------------------------------#
-# Performance Junction Object N:N 
-#----------------------------------------------------------------------------#
+#--------------Performance (association table)----------------#
 
-# Instead of creating a new Table, the documentation recommends to create a association table
+
 Performance = db.Table('Performance', db.Model.metadata,
     db.Column('Movie_id', db.Integer, db.ForeignKey('movies.id')),
     db.Column('Actor_id', db.Integer, db.ForeignKey('actors.id')),
     db.Column('actor_fee', db.Float)
 )
 
-#----------------------------------------------------------------------------#
-# Actors Model 
-#----------------------------------------------------------------------------#
+
+#--------------Actors Model----------------#
+
 
 class Actor(db.Model):  
   __tablename__ = 'actors'
@@ -103,9 +98,9 @@ class Actor(db.Model):
       'age': self.age
     }
 
-#----------------------------------------------------------------------------#
-# Movies Model 
-#----------------------------------------------------------------------------#
+
+#--------------Movies Model----------------#
+
 
 class Movie(db.Model):  
   __tablename__ = 'movies'

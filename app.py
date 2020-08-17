@@ -118,7 +118,6 @@ def create_app(test_config=None):
   @requires_auth('patch:actors')
   def edit_actors(payload, actor_id):
 
-    # Get request json
     body = request.get_json()
 
     # Abort if no actor_id or body has been provided
@@ -204,8 +203,6 @@ def create_app(test_config=None):
   @requires_auth('post:movies')
   def insert_movies(payload):
     
-    #
-    # Get request json
     body = request.get_json()
 
     if not body:
@@ -238,7 +235,6 @@ def create_app(test_config=None):
   @requires_auth('patch:movies')
   def edit_movies(payload, movie_id):
 
-    # Get request json
     body = request.get_json()
 
     # Abort if no movie_id or body has been provided
@@ -267,7 +263,7 @@ def create_app(test_config=None):
     # Delete movie with new values
     movie_to_update.update()
 
-    # Return success, updated movie id and updated movie as formatted list
+    # json response
     return jsonify({
       'success': True,
       'edited': movie_to_update.id,
@@ -292,7 +288,7 @@ def create_app(test_config=None):
     # Delete movie from database
     movie_to_delete.delete()
     
-    # Return success and id from deleted movie
+    # json response
     return jsonify({
       'success': True,
       'deleted': movie_id

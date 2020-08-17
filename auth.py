@@ -5,26 +5,24 @@ from jose import jwt
 from urllib.request import urlopen
 from config import auth0_config
 
-#----------------------------------------------------------------------------#
-# Auth0 Config
-#----------------------------------------------------------------------------#
+#-------------- Auth0 Config----------------#
 
 AUTH0_DOMAIN = auth0_config['AUTH0_DOMAIN']
 ALGORITHMS = auth0_config['ALGORITHMS']
 API_AUDIENCE = auth0_config['API_AUDIENCE']
 
-#----------------------------------------------------------------------------#
-# AuthError Exception
-#----------------------------------------------------------------------------#
+
+#-------------- AuthError Exception----------------#
+
 class AuthError(Exception):
     '''A standardized way to communicate auth failure modes'''
     def __init__(self, error, status_code):
         self.error = error
         self.status_code = status_code
     
-#----------------------------------------------------------------------------#
-# Auth Wrapper Methods
-#----------------------------------------------------------------------------#
+
+#--------------Auth Wrapper Methods----------------#
+
 
 def get_token_auth_header():
     """Obtains the Access Token from the Authorization Header
@@ -119,7 +117,8 @@ def verify_decode_jwt(token):
             'description': 'Authorization malformed.'
         }, 401)
 
-    rsa_key = {} # initialize empty private rsa key as dict
+    # initialize empty private rsa key as dict
+    rsa_key = {} 
     for key in jwks['keys']:
         if key['kid'] == unverified_header['kid']:
             rsa_key = {
