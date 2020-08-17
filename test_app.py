@@ -9,7 +9,6 @@ from sqlalchemy import desc
 from datetime import date
 
 # Create dict with Authorization key and Bearer token as values. 
-# Later used by test classes as Header
 
 casting_assistant_auth_header = {
     'Authorization': bearer_tokens['casting_assistant']
@@ -23,26 +22,6 @@ executive_producer_auth_header = {
     'Authorization': bearer_tokens['executive_producer']
 }
 
-
-#----------------------------------------------------------------------------#
-# RBAC Tests I: Missing Authorization | Missing Authentificaton
-#   Casting Assistant:
-#   - test_error_401_get_all_movies (Authorization)
-#   Casting Director:
-#   - test_error_401_delete_actor (Authorization)
-#   - test_error_403_delete_actor (Authentificaton)
-#   Executive Producer:
-#   - test_error_401_delete_movie (Authorization)
-#   - test_error_403_delete_movie (Authentificaton)
-
-# RBAC Tests II: Missing Authentificaton (i.e. missing permissions)
-
-#----------------------------------------------------------------------------#
-
-#----------------------------------------------------------------------------#
-# Setup of Unittest
-#----------------------------------------------------------------------------#
-
 class AgencyTestCase(unittest.TestCase):
     """This class represents the agency test case"""
 
@@ -51,6 +30,7 @@ class AgencyTestCase(unittest.TestCase):
 
         self.app = create_app()
         self.client = self.app.test_client
+        # database path
         self.database_path ='postgres://postgres:091297@localhost:5432/agency'
         setup_db(self.app, self.database_path)
         db_drop_and_create_all()
@@ -65,11 +45,8 @@ class AgencyTestCase(unittest.TestCase):
         """Executed after reach test"""
         pass
 
-# Test driven development (TDD): Create testcases first, then add endpoints to pass tests
 
-#----------------------------------------------------------------------------#
-# Tests for /actors POST
-#----------------------------------------------------------------------------#
+######## Tests for /actors POST #########
 
     def test_create_new_actor(self):
         """Test POST new actor."""
@@ -115,9 +92,9 @@ class AgencyTestCase(unittest.TestCase):
         self.assertFalse(data['success'])
         self.assertEqual(data['message'], 'no name provided.')
 
-#----------------------------------------------------------------------------#
-# Tests for /actors GET
-#----------------------------------------------------------------------------#
+
+###### Tests for /actors GET #########
+
 
     def test_get_all_actors(self):
         """Test GET all actors."""
@@ -146,9 +123,9 @@ class AgencyTestCase(unittest.TestCase):
         self.assertFalse(data['success'])
         self.assertEqual(data['message'] , 'no actors found in database.')
 
-#----------------------------------------------------------------------------#
-# Tests for /actors PATCH
-#----------------------------------------------------------------------------#
+
+###### Tests for /actors PATCH #########
+
 
     def test_edit_actor(self):
         """Test PATCH existing actors"""
@@ -185,9 +162,9 @@ class AgencyTestCase(unittest.TestCase):
         self.assertFalse(data['success'])
         self.assertEqual(data['message'] , 'Actor with id 123412 not found in database.')
 
-#----------------------------------------------------------------------------#
-# Tests for /actors DELETE
-#----------------------------------------------------------------------------#
+
+###### Tests for /actors DELETE #########
+
 
     def test_error_401_delete_actor(self):
         """Test DELETE existing actor w/o Authorization"""
@@ -225,9 +202,7 @@ class AgencyTestCase(unittest.TestCase):
         self.assertFalse(data['success'])
         self.assertEqual(data['message'] , 'Actor with id 15125 not found in database.')
 
-#----------------------------------------------------------------------------#
-# Tests for /movies POST
-#----------------------------------------------------------------------------#
+###### Tests for /movies POST #########
 
     def test_create_new_movie(self):
         """Test POST new movie."""
@@ -258,9 +233,9 @@ class AgencyTestCase(unittest.TestCase):
         self.assertFalse(data['success'])
         self.assertEqual(data['message'], 'no title provided.')
 
-#----------------------------------------------------------------------------#
-# Tests for /movies GET
-#----------------------------------------------------------------------------#
+
+####### Tests for /movies GET ########
+
 
     def test_get_all_movies(self):
         """Test GET all movies."""
@@ -289,9 +264,8 @@ class AgencyTestCase(unittest.TestCase):
         self.assertFalse(data['success'])
         self.assertEqual(data['message'] , 'no movies found in database.')
 
-#----------------------------------------------------------------------------#
-# Tests for /movies PATCH
-#----------------------------------------------------------------------------#
+
+###### Tests for /movies PATCH #######
 
     def test_edit_movie(self):
         """Test PATCH existing movies"""
@@ -326,9 +300,7 @@ class AgencyTestCase(unittest.TestCase):
         self.assertFalse(data['success'])
         self.assertEqual(data['message'] , 'Movie with id 123412 not found in database.')
 
-#----------------------------------------------------------------------------#
-# Tests for /movies DELETE
-#----------------------------------------------------------------------------#
+######### Tests for /movies DELETE ##########
 
     def test_error_401_delete_movie(self):
         """Test DELETE existing movie w/o Authorization"""
@@ -366,7 +338,6 @@ class AgencyTestCase(unittest.TestCase):
         self.assertFalse(data['success'])
         self.assertEqual(data['message'] , 'Movie with id 151251 not found in database.')
 
-# Make the tests conveniently executable.
-# From app directory, run 'python test_app.py' to start tests
+# run 'python test_app.py' to start tests
 if __name__ == "__main__":
     unittest.main()
