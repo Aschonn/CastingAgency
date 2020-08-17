@@ -120,7 +120,7 @@ def create_app(test_config=None):
 
     body = request.get_json()
 
-    # Abort if no actor_id or body has been provided
+    # Abort if no actor_id or body is not there
     if not actor_id:
       abort(400, {'message': 'please append an actor id to the request url.'})
 
@@ -130,12 +130,11 @@ def create_app(test_config=None):
     # Find actor which should be updated by id
     actor_to_update = Actor.query.filter(Actor.id == actor_id).one_or_none()
 
-    # Abort 404 if no actor with this id exists
+    # Abort 404 if actor id doesnt exists
     if not actor_to_update:
       abort(404, {'message': 'Actor with id {} not found in database.'.format(actor_id)})
 
     # Extract name and age value from request body
-    # If not given, set existing field values, so no update will happen
     name = body.get('name', actor_to_update.name)
     age = body.get('age', actor_to_update.age)
     gender = body.get('gender', actor_to_update.gender)
@@ -252,7 +251,6 @@ def create_app(test_config=None):
       abort(404, {'message': 'Movie with id {} not found in database.'.format(movie_id)})
 
     # Extract title and age value from request body
-    # If not given, set existing field values, so no update will happen
     title = body.get('title', movie_to_update.title)
     release_date = body.get('release_date', movie_to_update.release_date)
 
@@ -299,34 +297,34 @@ def create_app(test_config=None):
   @app.errorhandler(422)
   def unprocessable(error):
       return jsonify({
-                      "success": False, 
-                      "error": 422,
-                      "message": get_error_message(error,"unprocessable")
-                      }), 422
+            "success": False, 
+            "error": 422,
+            "message": get_error_message(error,"unprocessable")
+            }), 422
 
   @app.errorhandler(400)
   def bad_request(error):
       return jsonify({
-                      "success": False, 
-                      "error": 400,
-                      "message": get_error_message(error, "bad request")
-                      }), 400
+            "success": False, 
+            "error": 400,
+            "message": get_error_message(error, "bad request")
+            }), 400
 
   @app.errorhandler(404)
   def ressource_not_found(error):
       return jsonify({
-                      "success": False, 
-                      "error": 404,
-                      "message": get_error_message(error, "resource not found")
-                      }), 404
+            "success": False, 
+            "error": 404,
+            "message": get_error_message(error, "resource not found")
+            }), 404
 
   @app.errorhandler(AuthError)
   def authentification_failed(AuthError): 
       return jsonify({
-                      "success": False, 
-                      "error": AuthError.status_code,
-                      "message": AuthError.error['description']
-                      }), AuthError.status_code
+            "success": False, 
+            "error": AuthError.status_code,
+            "message": AuthError.error['description']
+            }), AuthError.status_code
 
 
 #--------- returns app after every endpoint has been created -----------#

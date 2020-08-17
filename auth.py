@@ -15,7 +15,7 @@ API_AUDIENCE = auth0_config['API_AUDIENCE']
 #-------------- AuthError Exception----------------#
 
 class AuthError(Exception):
-    '''A standardized way to communicate auth failure modes'''
+
     def __init__(self, error, status_code):
         self.error = error
         self.status_code = status_code
@@ -25,15 +25,7 @@ class AuthError(Exception):
 
 
 def get_token_auth_header():
-    """Obtains the Access Token from the Authorization Header
-    *Input: None
-    *Output:
-       <string> token (part of the header)
-    
-    Conditions for Output:
-       - Authorization header is available
-       - header must not be malformed (i.e. Bearer XXXXX)
-    """
+
     auth = request.headers.get('Authorization', None)
     # Raise error if no "Authorization" is part of header
     if not auth:
@@ -64,21 +56,13 @@ def get_token_auth_header():
             'description': 'Authorization header must be bearer token.'
         }, 401)
 
-    # When everyhting is fine, get the token which is the second part of the Authorization Header & return it
+    # Get the token which is the second part of the Authorization Header & return it
     return parts[1]
 
+
+
 def check_permissions(permission, payload):
-    ''' Check if permission is part of payload
-    *Input
-        <string> permission (i.e. 'post:example')
-        <string> payload (decoded jwt payload)
-    *Output:
-         <bool> True if all conditions have been met
-    
-    Conditions for Output:
-      - permissions are included in the payload
-      - requested permission string is in the payload permissions array
-    '''
+
     if 'permissions' not in payload:
                         raise AuthError({
                             'code': 'invalid_claims',
@@ -92,19 +76,10 @@ def check_permissions(permission, payload):
         }, 403)
     return True
 
+
+
 def verify_decode_jwt(token):
-    ''' Decodes JWT Token or raises appropiate Error Messages
-    *Input
-        <string> token (a json web token)
-    
-    *Output 
-        <string> decoded payload
-    Conditions for output to be returned:
-        - Auth0 token with key id (key id = kid)
-        - verify the token using Auth0 /.well-known/jwks.json
-        - decode the payload from the token with Auth Config on top of auth.py
-        - claims need to fit
-    '''
+
     # Verify token
     jsonurl = urlopen(f'https://{AUTH0_DOMAIN}/.well-known/jwks.json')
     jwks = json.loads(jsonurl.read())
@@ -168,18 +143,9 @@ def verify_decode_jwt(token):
             }, 400)
 
 
-# TODO DONE implement @requires_auth(permission) decorator method
 
 def requires_auth(permission=''):
-    ''' Authentification Wrapper to decorate Endpoints with
-    
-    *Input:
-        <string> permission (i.e. 'post:drink')
-    uses the get_token_auth_header method to get the token
-    uses the verify_decode_jwt method to decode the jwt
-    uses the check_permissions method validate claims and check the requested permission
-    return the decorator which passes the decoded payload to the decorated method
-    '''
+
     def requires_auth_decorator(f):
         @wraps(f)
         def wrapper(*args, **kwargs):

@@ -54,6 +54,7 @@ def db_init_records():
     db.session.commit()
 
 #--------------Performance (association table)----------------#
+#--------learn more here: https://www.pythoncentral.io/sqlalchemy-association-tables/  -------#
 
 
 Performance = db.Table('Performance', db.Model.metadata,
