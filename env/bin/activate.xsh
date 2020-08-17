@@ -28,7 +28,7 @@ def _deactivate(args):
 _deactivate(["nondestructive"])
 aliases["deactivate"] = _deactivate
 
-$VIRTUAL_ENV = r"/home/aschonn/Desktop/udacity/FSND/projects/capstone/starter/env"
+$VIRTUAL_ENV = r"/home/aschonn/Desktop/castingagency/env"
 
 $_OLD_VIRTUAL_PATH = $PATH
 $PATH = $PATH[:]
