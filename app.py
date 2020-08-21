@@ -18,7 +18,7 @@ def create_app(test_config=None):
 #----------- uncomment this if you want to start a new database on app refresh------------#
 
 
-# db_drop_and_create_all() 
+  db_drop_and_create_all() 
 
 
 

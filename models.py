@@ -71,7 +71,7 @@ class Actor(db.Model):
   __tablename__ = 'actors'
 
   id = Column(Integer, primary_key=True)
-  name = Column(String)
+  name = Column(String(200))
   gender = Column(String)
   age = Column(Integer)
 
