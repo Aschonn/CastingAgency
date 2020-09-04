@@ -1,19 +1,16 @@
-import os
 from sqlalchemy import Column, String, Integer, create_engine, Date, Float
 from flask_sqlalchemy import SQLAlchemy
 import json
 from datetime import date
 from config import database_setup
 
+#--------------------------------Database Setup --------------------------------------------#
 
-#--------------Database Setup----------------#
-
-database_path = os.environ.get('DATABASE_URL', "postgres://{}:{}@{}/{}".format(database_setup["user_name"], database_setup["password"], database_setup["port"], database_setup["database_name_production"]))
+database_path = "postgres://{}:{}@{}/{}".format(database_setup["user_name"], database_setup["password"], database_setup["port"], database_setup["database_name_test"])
 
 db = SQLAlchemy()
 
 def setup_db(app, database_path=database_path):
-    '''binds a flask application and a SQLAlchemy service'''
     app.config["SQLALCHEMY_DATABASE_URI"] = database_path
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
@@ -21,31 +18,24 @@ def setup_db(app, database_path=database_path):
     db.create_all()
 
 def db_drop_and_create_all():
-    '''drops the database tables and starts fresh
-    can be used to initialize a clean database
-    '''
     db.drop_all()
     db.create_all()
     db_init_records()
 
 def db_init_records():
-    '''this will initialize the database with some test records.'''
-
     new_actor = (Actor(
-        name = 'Matthew',
+        name = 'Andrew',
         gender = 'Male',
-        age = 25
+        age = 23,
         ))
-
     new_movie = (Movie(
-        title = 'Matthew first Movie',
+        title = 'Raiders of the lost Arc',
         release_date = date.today()
         ))
-
     new_performance = Performance.insert().values(
         Movie_id = new_movie.id,
         Actor_id = new_actor.id,
-        actor_fee = 500.00
+        actor_fee = 700.00
     )
 
     new_actor.insert()
@@ -53,8 +43,9 @@ def db_init_records():
     db.session.execute(new_performance) 
     db.session.commit()
 
-#--------------Performance (association table)----------------#
-#--------learn more here: https://www.pythoncentral.io/sqlalchemy-association-tables/  -------#
+
+#--------------------------------# Performance Association Table --------------------------------------------#
+#-------------------More Info: https://www.pythoncentral.io/sqlalchemy-association-tables/ ------------------#
 
 
 Performance = db.Table('Performance', db.Model.metadata,
@@ -63,22 +54,22 @@ Performance = db.Table('Performance', db.Model.metadata,
     db.Column('actor_fee', db.Float)
 )
 
-
-#--------------Actors Model----------------#
-
+#----------------------------------Actors Model ------------------------------------------#
 
 class Actor(db.Model):  
   __tablename__ = 'actors'
 
   id = Column(Integer, primary_key=True)
-  name = Column(String(200))
+  name = Column(String)
   gender = Column(String)
   age = Column(Integer)
+  favorite_color = Column(String)
 
   def __init__(self, name, gender, age):
     self.name = name
     self.gender = gender
     self.age = age
+    self.favorite_color
 
   def insert(self):
     db.session.add(self)
@@ -96,12 +87,12 @@ class Actor(db.Model):
       'id': self.id,
       'name' : self.name,
       'gender': self.gender,
-      'age': self.age
+      'age': self.age,
+      'favorite_color' : self.favorite_color
     }
 
-
-#--------------Movies Model----------------#
-
+ 
+#------------------------------------Movies Model ----------------------------------------#
 
 class Movie(db.Model):  
   __tablename__ = 'movies'

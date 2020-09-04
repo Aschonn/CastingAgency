@@ -3,25 +3,25 @@ from flask import request, _request_ctx_stack
 from functools import wraps
 from jose import jwt
 from urllib.request import urlopen
-from config import auth0_config
-
-#-------------- Auth0 Config----------------#
-
-AUTH0_DOMAIN = auth0_config['AUTH0_DOMAIN']
-ALGORITHMS = auth0_config['ALGORITHMS']
-API_AUDIENCE = auth0_config['API_AUDIENCE']
 
 
-#-------------- AuthError Exception----------------#
+#-----------------------------------Auth0 Config-----------------------------------------#
+
+AUTH0_DOMAIN = 'aschonn.us.auth0.com'
+ALGORITHMS = ["RS256"]
+API_AUDIENCE = 'casting'
+
+#--------------------------------- AuthError Exception-------------------------------------------#
+
 
 class AuthError(Exception):
-
+    '''A standardized way to communicate auth failure modes'''
     def __init__(self, error, status_code):
         self.error = error
         self.status_code = status_code
     
 
-#--------------Auth Wrapper Methods----------------#
+#-----------------------------------Auth Wrapper Methods-----------------------------------------#
 
 
 def get_token_auth_header():
@@ -56,13 +56,12 @@ def get_token_auth_header():
             'description': 'Authorization header must be bearer token.'
         }, 401)
 
-    # Get the token which is the second part of the Authorization Header & return it
+    # When everyhting is fine, get the token which is the second part of the Authorization Header & return it
     return parts[1]
-
-
 
 def check_permissions(permission, payload):
 
+    #if permission is not in payload raise error
     if 'permissions' not in payload:
                         raise AuthError({
                             'code': 'invalid_claims',
@@ -75,8 +74,6 @@ def check_permissions(permission, payload):
             'description': 'Permission not found.'
         }, 403)
     return True
-
-
 
 def verify_decode_jwt(token):
 
@@ -92,7 +89,6 @@ def verify_decode_jwt(token):
             'description': 'Authorization malformed.'
         }, 401)
 
-    # initialize empty private rsa key as dict
     rsa_key = {} 
     for key in jwks['keys']:
         if key['kid'] == unverified_header['kid']:
@@ -105,7 +101,7 @@ def verify_decode_jwt(token):
             }
     if rsa_key:
         try:
-            # Use Auth Config (top of file) to decode JWT and return payload if succesful
+            # Use Auth Config to decode JWT
             payload = jwt.decode(
                 token,
                 rsa_key,
@@ -115,28 +111,28 @@ def verify_decode_jwt(token):
             )
             return payload
 
-        # Raise Error if token is not valide anymore.
+        # Raise if token is not valid
         except jwt.ExpiredSignatureError:
             raise AuthError({
                 'code': 'token_expired',
                 'description': 'Token expired.'
             }, 401)
 
-        # Raise Error if token is claiming wrong audience.
+        # Error if wrong audience
         except jwt.JWTClaimsError:
             raise AuthError({
                 'code': 'invalid_claims',
                 'description': 'Incorrect claims. Please, check the audience and issuer.'
             }, 401)
 
-        # In all other Error cases, give generic error message
+        # In all other Error cases
         except Exception:
             raise AuthError({
                 'code': 'invalid_header',
                 'description': 'Unable to parse authentication token.'
             }, 400)
 
-    # If no payload has been returned yet, raise error.
+    # raise error if no payload.
     raise AuthError({
                 'code': 'invalid_header',
                 'description': 'Unable to find the appropriate key.'

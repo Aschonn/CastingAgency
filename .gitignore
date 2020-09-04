@@ -2,6 +2,13 @@
 .vscode/
 .idea/
 
+
+# Config
+config.py
+
+# Env
+env
+
 # Vagrant
 .vagrant/
 
