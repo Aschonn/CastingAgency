@@ -7,16 +7,18 @@ from config import database_setup
 
 #--------------------------------Database Setup --------------------------------------------#
 
-ENV = 'dev'
-
-if ENV == 'dev':
-  database_path = "postgres://postgres:091297@localhost:5432/casting'
-else: 
-  database_path = 'postgres://vdqikcbmqqwskr:0e2f2948a8f9941ecaf35f1d6cc1e38e68dcd22c124a22b118e17af82cc4af84@ec2-52-207-124-89.compute-1.amazonaws.com:5432/d2osbifms59anj'
 
 db = SQLAlchemy()
 
 def setup_db(app, database_path=database_path):
+
+    ENV = 'prod'
+
+    if ENV == 'dev':
+      database_path = "postgres://postgres:091297@localhost:5432/casting'
+    else: 
+      database_path = 'postgres://vdqikcbmqqwskr:0e2f2948a8f9941ecaf35f1d6cc1e38e68dcd22c124a22b118e17af82cc4af84@ec2-52-207-124-89.compute-1.amazonaws.com:5432/d2osbifms59anj'
+
     app.config["SQLALCHEMY_DATABASE_URI"] = database_path
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
