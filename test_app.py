@@ -44,8 +44,7 @@ class CastingTestCase(unittest.TestCase):
         self.app = create_app()
         self.client = self.app.test_client
         #self.database_path = 'postgres://postgres:091297@localhost:5432/casting'
-        self.database_path = "postgres://{}:{}@{}/{}".format(database_setup["user_name"], database_setup["password"], database_setup["port"], database_setup["database_name_test"])
-        #setups db from models.py
+        self.database_path = "postgres://postgres:091297@localhost:5432/casting"
         setup_db(self.app, self.database_path)
         
         #creates create all(tables, etc..)
