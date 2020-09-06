@@ -4,7 +4,7 @@ import json
 from flask_sqlalchemy import SQLAlchemy
 from app import create_app
 from models import setup_db, db_drop_and_create_all, Actor, Movie, Performance, db_drop_and_create_all
-from config import bearer_tokens
+from config import bearer_tokens, database_setup
 from sqlalchemy import desc
 from datetime import date
 
@@ -43,8 +43,8 @@ class CastingTestCase(unittest.TestCase):
         #creates the app and directs it to our database
         self.app = create_app()
         self.client = self.app.test_client
-        self.database_path = 'postgres://postgres:091297@localhost:5432/casting'
-        
+        #self.database_path = 'postgres://postgres:091297@localhost:5432/casting'
+        self.database_path = "postgres://{}:{}@{}/{}".format(database_setup["user_name"], database_setup["password"], database_setup["port"], database_setup["database_name_test"])
         #setups db from models.py
         setup_db(self.app, self.database_path)
         

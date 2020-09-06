@@ -6,10 +6,9 @@ from auth import AuthError, requires_auth
 from models import db_drop_and_create_all, setup_db, Actor, Movie, Performance
 from config import pagination
 
-ROWS_PER_PAGE = pagination['example']
+ROWS_PER_PAGE = pagination['page_number']
 
 def create_app(test_config=None):
-  '''create and configure the app'''
   
   app = Flask(__name__)
   setup_db(app)
@@ -32,13 +31,7 @@ def create_app(test_config=None):
   #----------------------------------------------------------------------------#
 
   def get_error_message(error, default_text):
-      '''Returns default error text or custom error message (if not applicable)
-      *Input:
-          * <error> system generated error message which contains a description message
-          * <string> default text to be used as error message if Error has no specific message
-      *Output:
-          * <string> specific error message or default text(if no specific message is given)
-      '''
+
       try:
           # Return message contained in error, if possible
           return error.description['message']
@@ -47,14 +40,7 @@ def create_app(test_config=None):
           return default_text
 
   def paginate_results(request, selection):
-    '''Paginates and formats database queries
-    Parameters:
-      * <HTTP object> request, that may contain a "page" value
-      * <database selection> selection of objects, queried from database
-    
-    Returns:
-      * <list> list of dictionaries of objects, max. 10 objects
-    '''
+
     # Get page from request. If not given, default to 1
     page = request.args.get('page', 1, type=int)
     
