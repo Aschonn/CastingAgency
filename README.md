@@ -3,7 +3,7 @@ https://casting4561.herokuapp.com
 
 # Motivation
 
-This is the last project of the Udacity-Full-Stack-Nanodegree Course. It covers following technical topics in 1 app:
+This is the last project of the Udacity-Full-Stack-Nanodegree Course. It covers following technical topics in 1 application:
 
 - Database modeling with postgres & sqlalchemy (see models.py)
 - API to performance CRUD Operations on database with Flask (see app.py)
@@ -34,24 +34,33 @@ This is the last project of the Udacity-Full-Stack-Nanodegree Course. It covers 
         -delete:movies
 
 
-4) Create new roles for:
-    casting-director
+# Create new roles for:
+
+## casting-director:
+
         permissions:
             -delete:actors
             -patch:actors
             -patch:movies
             -post:actors
-    casting-assistant:
+
+## Casting-Assistant:
+
         permissions:
             -get:actors
             -get:movies
-    executive-producer:
+
+## executive-producer:
         permissions:
             -delete:movies
             -patch:movies
             -post:movies
 
-5) To optain JWT Tokens:
+    
+<br>
+
+# How to optain JWT Tokens:
+
  
         https://{{YOUR_DOMAIN}}/authorize?audience={{API_IDENTIFIER}}&response_type=token&client_id={{YOUR_CLIENT_ID}}&redirect_uri={{YOUR_CALLBACK_URI}}
 
@@ -101,7 +110,9 @@ This is the last project of the Udacity-Full-Stack-Nanodegree Course. It covers 
 
 
 ### Detailed instructions for scripts to install any project dependencies, and to run the development server.
-    
+
+<br>
+
 # How To Run:
 
 To run appliation developement server:
@@ -124,14 +135,14 @@ Testing Results Examples:
     OK
     (env) _____@______:~/Desktop/castingagency$ 
     
-
+<br>
 
   
-### API ENDPOINTS AND EXAMPLE RESPONSE
+# API ENDPOINTS AND EXAMPLE RESPONSE
 
 
 
-# GET /actors
+## GET /actors:
 
 
 Query paginated actors.
@@ -141,11 +152,19 @@ Query paginated actors.
 Example response:
 
     {
-
+    "actors": [
+        {
+        "age": 23,
+        "gender": "Male",
+        "id": 1,
+        "name": "Andrew"
+        }
+    ],
+    "success": true
     }
 
 
-# POST /actors
+## POST /actors:
 
 Insert new actor into database.
 
@@ -154,12 +173,13 @@ Insert new actor into database.
 Example response:
 
     {
-
+        "created": 5,
+        "success": true
     }
 
 
 
-# PATCH /actors
+## PATCH /actors:
 
 
 
@@ -170,12 +190,21 @@ Example response:
 Example response:
 
     {
-
+        "actor": [
+            {
+                "age": 30,
+                "gender": "Other",
+                "id": 1,
+                "name": "Testallhoff"
+            }
+        ],
+        "success": true,
+        "updated": 1
     }
 
 
 
-# DELETE /actors
+## DELETE /actors:
 
 
     Delete an existing Actor:   
@@ -184,12 +213,14 @@ Example response:
 
 Example response
 
-    {
 
+    {
+        "deleted": 2,
+        "success": true
     }
 
 
-# GET /movies
+## GET /movies:
 
 Query paginated movies:
 
@@ -201,12 +232,19 @@ Query paginated movies:
 Example response:
 
     {
-
+        "movies": [
+            {
+                "id": 1,
+                "release_date": "Mon, 7 Sep 2020 00:00:00 GMT",
+                "title": "Matthew first Movie"
+            }
+        ],
+        "success": true
     }
 
 
 
-# POST /movies
+## POST /movies:
 
     Insert new Movie into database:
 
@@ -215,12 +253,13 @@ Example response:
 Example Response:
 
     {
-
+        "created": 2,
+        "success": true
     }
 
 
 
-# PATCH /movies
+## PATCH /movies:
 
     Edit an existing Movie:
 
@@ -244,7 +283,7 @@ Example response:
 
 
 
-# DELETE /movies
+## DELETE /movies:
 
     Delete an existing movie:
 
