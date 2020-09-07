@@ -6,7 +6,7 @@ from app import create_app
 from models import setup_db, db_drop_and_create_all, Actor, Movie, Performance, db_drop_and_create_all
 from sqlalchemy import desc
 from datetime import date
-from settings import bearer_tokens
+from settings import bearer_tokens, DATABASE_URL
 
 
 #-----------------HOW TO RUN (follow readme for more clarification---------------#
