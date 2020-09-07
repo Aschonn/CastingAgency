@@ -7,6 +7,8 @@ from urllib.request import urlopen
 
 #-----------------------------------Auth0 Config-----------------------------------------#
 
+#ADD THIS TO ENV
+
 AUTH0_DOMAIN = 'aschonn.us.auth0.com'
 ALGORITHMS = ["RS256"]
 API_AUDIENCE = 'casting'

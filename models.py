@@ -3,22 +3,16 @@ from sqlalchemy import Column, String, Integer, create_engine, Date, Float
 from flask_sqlalchemy import SQLAlchemy
 import json
 from datetime import date
-from config import database_setup
+from settings import DATABASE_URL
 
 #--------------------------------Database Setup --------------------------------------------#
 
-database_path = 'postgres://vdqikcbmqqwskr:0e2f2948a8f9941ecaf35f1d6cc1e38e68dcd22c124a22b118e17af82cc4af84@ec2-52-207-124-89.compute-1.amazonaws.com:5432/d2osbifms59anj'
+#The value will be stored locally and in heroku it will bring up a different database url (.env file in my gitignore)
+database_path = os.environ.get('DATABASE_URL')
 
 db = SQLAlchemy()
 
 def setup_db(app, database_path=database_path):
-
-    # ENV = 'prod'
-
-    # if ENV == 'dev':
-    #   database_path = "postgres://postgres:091297@localhost:5432/casting'
-    # else: 
-    #   database_path = 'postgres://vdqikcbmqqwskr:0e2f2948a8f9941ecaf35f1d6cc1e38e68dcd22c124a22b118e17af82cc4af84@ec2-52-207-124-89.compute-1.amazonaws.com:5432/d2osbifms59anj'
 
     app.config["SQLALCHEMY_DATABASE_URI"] = database_path
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -35,7 +29,7 @@ def db_init_records():
     new_actor = (Actor(
         name = 'Andrew',
         gender = 'Male',
-        age = 23,
+        age = 23
         ))
     new_movie = (Movie(
         title = 'Raiders of the lost Arc',
