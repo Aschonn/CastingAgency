@@ -1,7 +1,7 @@
-### Heroku Link
+# Heroku Link
 https://casting4561.herokuapp.com
 
-### Motivation
+# Motivation
 
 This is the last project of the Udacity-Full-Stack-Nanodegree Course. It covers following technical topics in 1 app:
 
@@ -12,8 +12,7 @@ This is the last project of the Udacity-Full-Stack-Nanodegree Course. It covers 
 - Deployment on Heroku
 
 
-### Setup Auth0
-Setup Auth0
+# Setup Auth0
 
 1) Create a new Auth0 Account
     Select a unique tenant domain
@@ -23,14 +22,18 @@ Setup Auth0
         Enable RBAC
         Enable Add Permissions in the Access Token
 3) Create new API permissions:
-    -get:actors
-    -get:movies
-    -post:actors
-    -post:movies
-    -patch:actors
-    -patch:movies
-    -delete:actors
-    -delete:movies
+
+
+        -get:actors
+        -get:movies
+        -post:actors
+        -post:movies
+        -patch:actors
+        -patch:movies
+        -delete:actors
+        -delete:movies
+
+
 4) Create new roles for:
     casting-director
         permissions:
@@ -48,31 +51,33 @@ Setup Auth0
             -patch:movies
             -post:movies
 
-5) To optain JWT Tokens: https://{{YOUR_DOMAIN}}/authorize?audience={{API_IDENTIFIER}}&response_type=token&client_id={{YOUR_CLIENT_ID}}&redirect_uri={{YOUR_CALLBACK_URI}}
+5) To optain JWT Tokens:
+ 
+        https://{{YOUR_DOMAIN}}/authorize?audience={{API_IDENTIFIER}}&response_type=token&client_id={{YOUR_CLIENT_ID}}&redirect_uri={{YOUR_CALLBACK_URI}}
 
 6) Insert JWT Tokens into 'bearer_tokens' section in settings.py.
 
 
-### Project Depenedencies, local developement, Hosting Instruction, Enviromental Variables
+# Project Depenedencies, local developement, Hosting Instruction, Enviromental Variables
 
 
-### Enviromental Variables:
+## Enviromental Variables:
 
 1) Install python-dotenv:
 
-    $ pip install dotenv
+        $ pip install dotenv
 
 2) Create a '.env' file:
 
-    $ touch .env
+        $ touch .env
 
 3) Add DATABASE_URL
 
-    DATABASE_URL = "postgres://{username}:{password}@localhost:{port}/{database_name}"
+        DATABASE_URL = "postgres://{username}:{password}@localhost:{port}/{database_name}"
 
 4) Add SECRET_KEY (OPTIONAL)
 
-    SECRET_KEY = "{SECRET_KEY}"
+        SECRET_KEY = "{SECRET_KEY}"
 
 
 # dependencies:
@@ -83,15 +88,15 @@ Setup Auth0
 
 1) Install Virtualenv  
 
-    python -m pip install --user virtualenv
+        python -m pip install --user virtualenv
 
 2) Create Virtualenv in local project
 
-    virtualenv -p /usr/bin/python3 isoEnv
+        virtualenv -p /usr/bin/python3 env
 
 3) Install needed dependencies:
 
-    pip install -r requirements.txt
+        pip install -r requirements.txt
 
 
 
@@ -101,133 +106,156 @@ Setup Auth0
 
 To run appliation developement server:
 
-    ```python app.py```
+    python app.py
 
 To run tests:
 
-    ```python test_app.py```
+    python test_app.py
 
 
 Testing Results Examples:
 
 
-'''
-    ......................
-----------------------------------------------------------------------
-Ran 22 tests in 6.834s
 
-OK
-(env) _____@______:~/Desktop/castingagency$ 
-'''
+        ......................
+    ----------------------------------------------------------------------
+    Ran 22 tests in 6.834s
+
+    OK
+    (env) _____@______:~/Desktop/castingagency$ 
     
-### Documentation of API behavior and RBAC controls
 
 
-## GET /actors
+  
+### API ENDPOINTS AND EXAMPLE RESPONSE
+
+
+
+# GET /actors
+
 
 Query paginated actors.
 
-$ curl -X GET 
+    $ curl -X GET http://127.0.0.1:8080/actors
 
 Example response:
 
+    {
+
+    }
 
 
-
-2. POST /actors
+# POST /actors
 
 Insert new actor into database.
 
-$ curl -X POST http://127.0.0.1:8080/actors
+    $ curl -X POST http://127.0.0.1:8080/actors
 
 Example response:
 
-If you try to create a new actor without a requiered field like name, it will throw a 422 error:
+    {
+
+    }
 
 
 
+# PATCH /actors
 
-3. PATCH /actors
 
-Edit an existing Actor
 
-$ curl -X PATCH 
+    Edit an existing Actor:
+    $ curl -X PATCH 
 
 
 Example response:
 
+    {
+
+    }
 
 
 
-
-4. DELETE /actors
-
-Delete an existing Actor
-
-$ curl -X DELETE
+# DELETE /actors
 
 
-Example response
-
-
-
-
-5. GET /movies
-
-Query paginated movies.
-
-$ curl -X GET 
+    Delete an existing Actor:   
+    $ curl -X DELETE http://127.0.0.1:8080/actors
 
 
 Example response
 
+    {
+
+    }
+
+
+# GET /movies
+
+Query paginated movies:
+
+    Get existing movies:
+
+    $ curl -X GET 
+
+
+Example response:
+
+    {
+
+    }
 
 
 
-6. POST /movies
+# POST /movies
 
-Insert new Movie into database.
+    Insert new Movie into database:
 
-$ curl -X POST http://127.0.0.1:8080/movies
+    $ curl -X POST http://127.0.0.1:8080/movies
 
+Example Response:
 
+    {
 
-
-
-7. PATCH /movies
-
-Edit an existing Movie
-
-$ curl -X PATCH http://127.0.0.1:8080/movies
-Example response
-
-{
-    "created": 1,
-    "movie": [
-        {
-            "id": 1,
-            "release_date": "Sun, 16 Feb 2020 00:00:00 GMT",
-            "title": "Test Movie 123"
-        }
-    ],
-    "success": true
-}
+    }
 
 
 
+# PATCH /movies
 
-8. DELETE /movies
+    Edit an existing Movie:
 
-Delete an existing movie
+    $ curl -X PATCH http://127.0.0.1:8080/movies
 
-$ curl -X DELETE https://artist-capstone-fsnd-matthew.herokuapp.com/movies/1
+Example response:
 
-Example response
 
-{
-    "deleted": 5,
-    "success": true
-}
+    {
+        "created": 1,
+        "movie": [
+            {
+                "id": 1,
+                "release_date": "Sun, 16 Feb 2020 00:00:00 GMT",
+                "title": "Test Movie 123"
+            }
+        ],
+        "success": true
+    }
+
+
+
+
+# DELETE /movies
+
+    Delete an existing movie:
+
+    $ curl -X DELETE http://127.0.0.1:8080/
+
+Example response:
+
+    {
+        "deleted": 5,
+        "success": true
+    }
 
 
 
