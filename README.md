@@ -11,17 +11,18 @@ This is the last project of the Udacity-Full-Stack-Nanodegree Course. It covers 
 - Authorization & Role based Authentification with Auth0 (see auth.py)
 - Deployment on Heroku
 
+<br>
 
 # Setup Auth0
 
-1) Create a new Auth0 Account
+## 1) Create a new Auth0 Account
     Select a unique tenant domain
     Create a new, single page web application
-2) Create a new API
+## 2) Create a new API
     in API Settings:
         Enable RBAC
         Enable Add Permissions in the Access Token
-3) Create new API permissions:
+## 3) Create new API permissions:
 
 
         -get:actors
@@ -34,9 +35,11 @@ This is the last project of the Udacity-Full-Stack-Nanodegree Course. It covers 
         -delete:movies
 
 
-# Create new roles for:
+## 4) Create new roles for:
 
-## casting-director:
+<br>
+
+### casting-director:
 
         permissions:
             -delete:actors
@@ -44,13 +47,13 @@ This is the last project of the Udacity-Full-Stack-Nanodegree Course. It covers 
             -patch:movies
             -post:actors
 
-## Casting-Assistant:
+### Casting-Assistant:
 
         permissions:
             -get:actors
             -get:movies
 
-## executive-producer:
+### executive-producer:
         permissions:
             -delete:movies
             -patch:movies
@@ -59,13 +62,18 @@ This is the last project of the Udacity-Full-Stack-Nanodegree Course. It covers 
     
 <br>
 
-# How to optain JWT Tokens:
+## 5) How to optain JWT Tokens:
 
  
         https://{{YOUR_DOMAIN}}/authorize?audience={{API_IDENTIFIER}}&response_type=token&client_id={{YOUR_CLIENT_ID}}&redirect_uri={{YOUR_CALLBACK_URI}}
 
-6) Insert JWT Tokens into 'bearer_tokens' section in settings.py.
+<br>
 
+## 6) Insert JWT Tokens into 'bearer_tokens' section in settings.py.
+
+<br>
+
+<br>
 
 # Project Depenedencies, local developement, Hosting Instruction, Enviromental Variables
 
@@ -89,27 +97,29 @@ This is the last project of the Udacity-Full-Stack-Nanodegree Course. It covers 
         SECRET_KEY = "{SECRET_KEY}"
 
 
-# dependencies:
+<br>
+
+# Dependencies:
 - I used python 3.8.2 but anything over 3.7 will work. 
 - All the related dependencies are in the requirements.txt
 
+<br>
+
 # Create a virtualenv and install dependencies
 
-1) Install Virtualenv  
+### 1) Install Virtualenv  
 
         python -m pip install --user virtualenv
 
-2) Create Virtualenv in local project
+### 2) Create Virtualenv in local project
 
         virtualenv -p /usr/bin/python3 env
 
-3) Install needed dependencies:
+### 3) Install needed dependencies:
 
         pip install -r requirements.txt
 
 
-
-### Detailed instructions for scripts to install any project dependencies, and to run the development server.
 
 <br>
 
@@ -140,10 +150,12 @@ Testing Results Examples:
   
 # API ENDPOINTS AND EXAMPLE RESPONSE
 
+<br>
+
+## ~~GET /actors:~~
 
 
-## GET /actors:
-
+<br>
 
 Query paginated actors.
 
@@ -177,11 +189,11 @@ Example response:
         "success": true
     }
 
-
+<br>
 
 ## PATCH /actors:
 
-
+<br>
 
     Edit an existing Actor:
     $ curl -X PATCH 
@@ -202,10 +214,11 @@ Example response:
         "updated": 1
     }
 
-
+<br>
 
 ## DELETE /actors:
 
+<br>
 
     Delete an existing Actor:   
     $ curl -X DELETE http://127.0.0.1:8080/actors
@@ -219,8 +232,11 @@ Example response
         "success": true
     }
 
+<br>
 
 ## GET /movies:
+
+<br>
 
 Query paginated movies:
 
@@ -242,9 +258,11 @@ Example response:
         "success": true
     }
 
-
+<br>
 
 ## POST /movies:
+
+<br>
 
     Insert new Movie into database:
 
@@ -257,9 +275,11 @@ Example Response:
         "success": true
     }
 
-
+<br>
 
 ## PATCH /movies:
+
+<br>
 
     Edit an existing Movie:
 
@@ -281,9 +301,11 @@ Example response:
     }
 
 
-
+<br>
 
 ## DELETE /movies:
+
+<br>
 
     Delete an existing movie:
 
