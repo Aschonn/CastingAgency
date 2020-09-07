@@ -53,8 +53,26 @@ Setup Auth0
 6) Insert JWT Tokens into 'bearer_tokens' section in settings.py.
 
 
-### Project Depenedencies, local developement, Hosting Instruction
+### Project Depenedencies, local developement, Hosting Instruction, Enviromental Variables
 
+
+### Enviromental Variables:
+
+1) Install python-dotenv:
+
+    $ pip install dotenv
+
+2) Create a '.env' file:
+
+    $ touch .env
+
+3) Add DATABASE_URL
+
+    DATABASE_URL = "postgres://{username}:{password}@localhost:{port}/{database_name}"
+
+4) Add SECRET_KEY (OPTIONAL)
+
+    SECRET_KEY = "{SECRET_KEY}"
 
 
 # dependencies:
@@ -109,256 +127,78 @@ OK
 
 Query paginated actors.
 
-$ curl -X GET https://artist-capstone-fsnd-matthew.herokuapp.com/actors?page1
+$ curl -X GET 
 
-    Fetches a list of dictionaries of examples in which the keys are the ids with all available fields
-    Request Arguments:
-        integer page (optional, 10 actors per page, defaults to 1 if not given)
-    Request Headers: None
-    Requires permission: read:actors
-    Returns:
-        List of dict of actors with following fields:
-            integer id
-            string name
-            string gender
-            integer age
-        boolean success
+Example response:
 
-Example response
 
-{
-  "actors": [
-    {
-      "age": 25,
-      "gender": "Andrew",
-      "id": 1,
-      "name": "Matthew"
-      "favorite_color: "blue"
-    }
-  ],
-  "success": true
-}
 
 
 2. POST /actors
 
 Insert new actor into database.
 
-$ curl -X POST https://artist-capstone-fsnd-matthew.herokuapp.com/actors
+$ curl -X POST http://127.0.0.1:8080/actors
 
-    Request Arguments: None
-    Request Headers: (application/json) 1. string name (required) 2. integer age (required) 3. string gender
-    Requires permission: create:actors
-    Returns:
-        integer id from newly created actor
-        boolean success
-
-Example response
-
-{
-    "created": 5,
-    "success": true
-}
-
-Errors
+Example response:
 
 If you try to create a new actor without a requiered field like name, it will throw a 422 error:
 
-$ curl -X GET https://artist-capstone-fsnd-matthew.herokuapp.com/actors?page123124
 
-will return
 
-{
-  "error": 422,
-  "message": "no name provided.",
-  "success": false
-}
 
 3. PATCH /actors
 
 Edit an existing Actor
 
-$ curl -X PATCH https://artist-capstone-fsnd-matthew.herokuapp.com/actors/1
+$ curl -X PATCH 
 
-    Request Arguments: integer id from actor you want to update
-    Request Headers: (application/json) 1. string name 2. integer age 3. string gender
-    Requires permission: edit:actors
-    Returns:
-        integer id from updated actor
-        boolean success
-        List of dict of actors with following fields:
-            integer id
-            string name
-            string gender
-            integer age
 
-Example response
+Example response:
 
-{
-    "actor": [
-        {
-            "age": 30,
-            "gender": "Other",
-            "id": 1,
-            "name": "Test Actor"
-        }
-    ],
-    "success": true,
-    "updated": 1
-}
 
-Errors
 
-If you try to update an actor with an invalid id it will throw an 404error:
 
-$ curl -X PATCH https://artist-capstone-fsnd-matthew.herokuapp.com/actors/125
-
-will return
-
-{
-  "error": 404,
-  "message": "Actor with id 125 not found in database.",
-  "success": false
-}
-
-Additionally, trying to update an Actor with already existing field values will result in an 422 error:
-
-{
-  "error": 422,
-  "message": "provided field values are already set. No update needed.",
-  "success": false
-}
 
 4. DELETE /actors
 
 Delete an existing Actor
 
-$ curl -X DELETE https://artist-capstone-fsnd-matthew.herokuapp.com/actors/1
+$ curl -X DELETE
 
-    Request Arguments: integer id from actor you want to delete
-    Request Headers: None
-    Requires permission: delete:actors
-    Returns:
-        integer id from deleted actor
-        boolean success
 
 Example response
 
-{
-    "deleted": 5,
-    "success": true
-}
 
-Errors
 
-If you try to delete actor with an invalid id, it will throw an 404error:
-
-$ curl -X DELETE https://artist-capstone-fsnd-matthew.herokuapp.com/actors/125
-
-will return
-
-{
-  "error": 404,
-  "message": "Actor with id 125 not found in database.",
-  "success": false
-}
 
 5. GET /movies
 
 Query paginated movies.
 
-$ curl -X GET https://artist-capstone-fsnd-matthew.herokuapp.com/movies?page1
+$ curl -X GET 
 
-    Fetches a list of dictionaries of examples in which the keys are the ids with all available fields
-    Request Arguments:
-        integer page (optional, 10 movies per page, defaults to 1 if not given)
-    Request Headers: None
-    Requires permission: read:movies
-    Returns:
-        List of dict of movies with following fields:
-            integer id
-            string name
-            date release_date
-        boolean success
 
 Example response
 
-{
-  "movies": [
-    {
-      "id": 1,
-      "release_date": "Sun, 16 Feb 2020 00:00:00 GMT",
-      "title": "Matthew first Movie"
-    }
-  ],
-  "success": true
-}
 
-Errors
 
-If you try fetch a page which does not have any movies, you will encounter an error which looks like this:
-
-$ curl -X GET https://artist-capstone-fsnd-matthew.herokuapp.com/movies?page123124
-
-will return
-
-{
-  "error": 404,
-  "message": "no movies found in database.",
-  "success": false
-}
 
 6. POST /movies
 
 Insert new Movie into database.
 
-$ curl -X POST https://artist-capstone-fsnd-matthew.herokuapp.com/movies
+$ curl -X POST http://127.0.0.1:8080/movies
 
-    Request Arguments: None
-    Request Headers: (application/json) 1. string title (required) 2. date release_date (required)
-    Requires permission: create:movies
-    Returns:
-        integer id from newly created movie
-        boolean success
 
-Example response
 
-{
-    "created": 5,
-    "success": true
-}
 
-Errors
-
-If you try to create a new movie without a requiered field like name, it will throw a 422 error:
-
-$ curl -X GET https://artist-capstone-fsnd-matthew.herokuapp.com/movies?page123124
-
-will return
-
-{
-  "error": 422,
-  "message": "no name provided.",
-  "success": false
-}
 
 7. PATCH /movies
 
 Edit an existing Movie
 
-$ curl -X PATCH https://artist-capstone-fsnd-matthew.herokuapp.com/movies/1
-
-    Request Arguments: integer id from movie you want to update
-    Request Headers: (application/json) 1. string title 2. date release_date
-    Requires permission: edit:movies
-    Returns:
-        integer id from updated movie
-        boolean success
-        List of dict of movies with following fields:
-            integer id
-            string title
-            date release_date
-
+$ curl -X PATCH http://127.0.0.1:8080/movies
 Example response
 
 {
@@ -373,40 +213,14 @@ Example response
     "success": true
 }
 
-Errors
 
-If you try to update an movie with an invalid id it will throw an 404error:
 
-$ curl -X PATCH https://artist-capstone-fsnd-matthew.herokuapp.com/movies/125
-
-will return
-
-{
-  "error": 404,
-  "message": "Movie with id 125 not found in database.",
-  "success": false
-}
-
-Additionally, trying to update an Movie with already existing field values will result in an 422 error:
-
-{
-  "error": 422,
-  "message": "provided field values are already set. No update needed.",
-  "success": false
-}
 
 8. DELETE /movies
 
 Delete an existing movie
 
 $ curl -X DELETE https://artist-capstone-fsnd-matthew.herokuapp.com/movies/1
-
-    Request Arguments: integer id from movie you want to delete
-    Request Headers: None
-    Requires permission: delete:movies
-    Returns:
-        integer id from deleted movie
-        boolean success
 
 Example response
 
@@ -415,31 +229,5 @@ Example response
     "success": true
 }
 
-Errors
-
-If you try to delete movie with an invalid id, it will throw an 404error:
-
-$ curl -X DELETE https://artist-capstone-fsnd-matthew.herokuapp.com/movies/125
-
-will return
-
-{
-  "error": 404,
-  "message": "Movie with id 125 not found in database.",
-  "success": false
-}
 
 
-
-
-
-
-
-
-
-
-
-
-
-.env
-pip install python-dotenv
