@@ -2,6 +2,9 @@
 .vscode/
 .idea/
 
+# __pycache
+__pycache__
+
 
 # Config
 config.py
