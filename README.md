@@ -173,7 +173,7 @@ Insert new actor into database.
 Example response:
 
     {
-        "created": 5,
+        "created": 2,
         "success": true
     }
 
@@ -236,7 +236,7 @@ Example response:
             {
                 "id": 1,
                 "release_date": "Mon, 7 Sep 2020 00:00:00 GMT",
-                "title": "Matthew first Movie"
+                "title": "Raiders of the lost Arc"
             }
         ],
         "success": true
@@ -273,7 +273,7 @@ Example response:
         "movie": [
             {
                 "id": 1,
-                "release_date": "Sun, 16 Feb 2020 00:00:00 GMT",
+                "release_date": "Mon, 9 Sep 2020 00:00:00 GMT",
                 "title": "Test Movie 123"
             }
         ],
@@ -292,7 +292,7 @@ Example response:
 Example response:
 
     {
-        "deleted": 5,
+        "deleted": 2,
         "success": true
     }
 
