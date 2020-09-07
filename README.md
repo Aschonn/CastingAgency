@@ -152,7 +152,7 @@ Testing Results Examples:
 
 <br>
 
-## ~~GET /actors:~~
+## GET /actors:
 
 
 <br>
